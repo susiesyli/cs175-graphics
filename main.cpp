@@ -37,6 +37,11 @@ public:
 	Fl_Button* reloadButton;
 	Fl_Button* animateLightButton;
 
+    // added for color control 
+    Fl_Slider* redSlider;
+    Fl_Slider* greenSlider;
+    Fl_Slider* blueSlider;
+
 	MyGLCanvas* canvas;
 
 public:
@@ -134,6 +139,52 @@ MyAppWindow::MyAppWindow(int W, int H, const char*L) : Fl_Window(W, H, L) {
 	reloadButton->callback(reloadCB, (void*)this);
 
 	packShaders->end();
+
+
+
+
+    // color control 
+     // Add a new pack for light color controls
+    Fl_Pack* packColor = new Fl_Pack(w() - 100, 330, 100, h(), "Light Color");
+    packColor->box(FL_DOWN_FRAME);
+    packColor->labelfont(1);
+    packColor->type(Fl_Pack::VERTICAL);
+    packColor->spacing(0);
+    packColor->begin();
+
+    // Red slider
+    Fl_Box *redTextbox = new Fl_Box(0, 0, pack->w() - 20, 20, "Red");
+    redSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
+    redSlider->align(FL_ALIGN_TOP);
+    redSlider->type(FL_HOR_SLIDER);
+    redSlider->bounds(0, 1.0);
+    redSlider->step(0.1);
+    redSlider->value(canvas->lightColor.x);
+    redSlider->callback(rotateCB, (void*)(&(canvas->lightColor.x)));
+
+    // Green slider
+    Fl_Box *greenTextbox = new Fl_Box(0, 0, pack->w() - 20, 20, "Green");
+    greenSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
+    greenSlider->align(FL_ALIGN_TOP);
+    greenSlider->type(FL_HOR_SLIDER);
+    greenSlider->bounds(0, 1.0);
+    greenSlider->step(0.1);
+    greenSlider->value(canvas->lightColor.y);
+    greenSlider->callback(rotateCB, (void*)(&(canvas->lightColor.y)));
+
+    // Blue slider
+    Fl_Box *blueTextbox = new Fl_Box(0, 0, pack->w() - 20, 20, "Blue");
+    blueSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
+    blueSlider->align(FL_ALIGN_TOP);
+    blueSlider->type(FL_HOR_SLIDER);
+    blueSlider->bounds(0, 1.0);
+    blueSlider->step(0.1);
+    blueSlider->value(canvas->lightColor.z);
+    blueSlider->callback(rotateCB, (void*)(&(canvas->lightColor.z)));
+
+    packColor->end();
+
+
 
 	end();
 }

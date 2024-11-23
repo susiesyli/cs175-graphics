@@ -5,6 +5,9 @@
 MyGLCanvas::MyGLCanvas(int x, int y, int w, int h, const char *l) : Fl_Gl_Window(x, y, w, h, l) {
 	mode(FL_OPENGL3 | FL_RGB | FL_ALPHA | FL_DEPTH | FL_DOUBLE);
 	
+    // added for light color control 
+    lightColor = glm::vec3(1.0f, 1.0f, 1.0f);  // Initialize to white light 
+
 	eyePosition = glm::vec3(0.0f, 0.0f, 3.0f);
 	lookatPoint = glm::vec3(0.0f, 0.0f, 0.0f);
 	rotVec = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -72,7 +75,10 @@ void MyGLCanvas::drawScene() {
 
 	glm::vec3 rotateLightPos = glm::vec3(sin(lightPos.x), lightPos.y, cos(lightPos.z));
 	//TODO: pass lighting information to the shaders
+    glUniform3fv(glGetUniformLocation(myShaderManager->program, "lightPosition"), 1, glm::value_ptr(rotateLightPos));
 
+    // color control!
+    glUniform3fv(glGetUniformLocation(myShaderManager->program, "lightColor"), 1, glm::value_ptr(lightColor));
 
 	//renders the object
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

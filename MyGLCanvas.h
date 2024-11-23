@@ -25,6 +25,8 @@
 
 class MyGLCanvas : public Fl_Gl_Window {
 public:
+    // added for light color control 
+    glm::vec3 lightColor;  
 
 	// Length of our spline (i.e how many points do we randomly generate)
 
