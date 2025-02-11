@@ -1,0 +1,120 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.75in]{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\setlength{\columnsep}{1cm}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\usepackage[usenames]{color}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{framed}
+
+\definecolor{light-gray}{gray}{0.45}
+\titleformat{\section}
+{\color{black}\normalfont\huge\bfseries}
+{\color{black}\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\color{light-gray}\normalfont\Large\bfseries}
+{\color{light-gray}\thesubsection}{1em}{}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{\Huge{\bf Algorithm 1: Shapes}}
+\author{CS 175: Computer Graphics -- Fall 2024}
+\date{Due:  {\bf Friday September 20} at 11:59am (noon)}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\begin{verbatim}
+Your Names: _____________________________
+
+            _____________________________
+
+            _____________________________
+            
+            \end{verbatim}
+
+\section{Instructions}
+Complete this assignment only with your teammates in a team of 3. You may use a
+calculator or computer algebra system. All your answers should be given in simplest form.
+When a numerical answer is required, provide a reduced fraction (i.e. 1/3) or at least three
+decimal places (i.e. 0.333). Show all work; write your answers on this sheet. This algorithm handout is worth 2\% of your final grade for the class.
+
+
+\section{Cube}
+ {\bf [1 point]} Take a look at one face of the cube. Change the tessellation parameter. How do the number of small squares against one edge correspond to the tessellation parameter?
+\begin{framed}
+\vspace{6em}
+\end{framed}
+{\bf [1 point]} Imagine a unit cube at the origin with tessellation parameters of 2 (i.e., $SegmentsX=2$ and $SegmentsY=2$. This results in 4 squares, which are represented with 8 triangles). Its front face lies in the +XY plane. What are the normal vectors that correspond with each of the 8 triangles that make up this face? (Note: when asked for a normal, you should always give a normalized vector, meaning a vector of length one.)
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+\section{Cylinder}
+{\bf [1 points]} The caps of the cylinder are regular polygons with $N$ sides, where $N$'s value is determined by parameter 1 ($SegmentsX$). You will notice they are cut up like a pizza with $N$ slices, which are isosceles triangles. The vertices of the $N$-gon lie on a perfect circle. What is the equation of the circle that they lie on  in terms of the radius (0.5) and the angle $\theta$?
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+{\bf [1 points]} What is the surface normal of an arbitrary point along the barrel of the cylinder? It might be easier to think of this problem in cylindrical coordinates, and then transform your answer to cartesian after you have solved it in cylindrical coords.
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+\section{Cone}
+{\bf [1 point]} How many triangles make up one of the $SegmentsX$ ``sides'' of the cone when $SegmentsY=1$? When $SegmentsY=2$? 3? $n$? (As a hint, consider the case where $SegmentsX=3$ and the cone has 3 sides (and a bottom). See the demo for an example).
+\begin{framed}
+\vspace{10em}
+\end{framed}
+
+{\bf [1 point]} What is the surface normal at the tip of the cone? Keep in mind that a singularity does not have a normal; this implies that there will not be a unique normal at the tip of the cone. You can achieve a good shading effect by thinking of $SegmentsX$ vectors with their base at the tip of the cone, each pointing outward, normal from the face of the triangle associated with it along the side of the cone. Think about how OpenGL can use this information to make a realistic point at the top of the cone, and draw a simple schematic sketch illustrating the normal for one of the triangles at the tip. (As long as it is clear that you get the idea, you will receive full credit.)
+\begin{framed}
+\vspace{8em}
+\end{framed}
+
+{\bf [1 point]} The following will take your through steps to thinking about how to compute the normal of a vertex on the side of a Cone (note: for this cone, the base is at $y=-0.5$, the tip is at $y=0.5$. The body of the cone can be thought of as stacking circles (of decreasing or increaseing radii) in the XZ plane. See the demo if it's not clear). Starting in 2D, take the two dimensional line formed by the points $(0, 0.5)$ and $(0.5, -0.5)$ and find its slope $m$. Another way to think about this 2D case is if we take the cross section of our 3D cone, focusing on the slice where $z=0$, this line represents a``side'' of the cone.
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+{\bf [1 point]} ${{-1}\over{m}}$ is the slope of the normal that is perpendicular to this line. First, represent this normal as a vector. Using this slope, we can find the vertical and radial/horizontal components of the normal on the cone body in 3D as well. The radial/horizontal component is the component of this normal in the XZ plane. What is the {\bf magnitude} of this component in a normalized normal vector?
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+{\bf [1 point]} The component in the $y$ direction is the vertical component. What is the {\bf magnitude} of this component in a normalized normal vector?
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+\section{Sphere}
+The sphere in the demo is tessellated in the latitude/longitude manner, so the points you want to calculate are straight spherical coordinates. The two parameters can be used as $\theta$ and $\phi$, or longitude and latitude. Recall, that the conversion from spherical to Cartesian coordinates is given by
+\begin{eqnarray*}
+x & = & r * \sin{\phi} * \cos{\theta}\\
+y & = & r * \cos{\phi}\\
+z & = & r * \sin{\phi}*\sin{\theta}
+\end{eqnarray*}
+{\bf [1 point]} What is the normalized surface normal of the sphere at an arbitrary surface point $(x,y,z)$?
+\begin{framed}
+\vspace{6em}
+\end{framed}
+
+
+\section{How to Submit}
+
+Submit a PDF version of your solutions in Canvas. You should make one submission for the whole team. Don't forget to self-signup your team in Canvas.
+\end{document}  
